@@ -1,2 +1,2 @@
-# Only keep this locally
+# Keep SSH keys outside of git and manage carefully! 
 .ssh/**
