@@ -10,12 +10,21 @@ if [[ -z "$server_pass" ]]
   then echo "Could not find pass, aborting..."
 fi
 
-# scp entire html dir to /var/www/ in server
 echo "Found server pass, transferring files..."
+
+# scp entire html dir to /var/www/ in server
+# FIXME: requires installing sshpass! we should probably use ssh keys
 sshpass -p \
   "$server_pass" \
   scp -r \
   "$ABS_LOCAL_PATH" \
   "$ABS_SERVER_PATH" \
+
+# curl version, doesn't require sshpass dep but is slower
+# curl \
+#   --insecure \
+#   --user "root:$server_pass" \
+#   -T "$ABS_LOCAL_PATH" \
+#   "ftp://$ABS_SERVER_PATH"
 
 echo "Done!"
