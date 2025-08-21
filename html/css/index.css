@@ -1,8 +1,31 @@
+html {
+  /* Our life is easier if we don't have to think about default styling */
+  all: unset;
+}
+
 body {
-  background: #1C6EA4;
-  background: -moz-linear-gradient(top, #1C6EA4 0%, #144E75 100%);
-  background: -webkit-linear-gradient(top, #1C6EA4 0%, #144E75 100%);
-  background: linear-gradient(to bottom, #1C6EA4 0%, #144E75 100%);
-  width: 100vw;
-  height: 100vh;
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+}
+
+.center-over-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.margin {
+  margin: 10px;
+}
+
+.fixed-width {
+  width: 200px;
 }
