@@ -1,31 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 html {
   /* Our life is easier if we don't have to think about default styling */
   all: unset;
+
+  /* Use same font for everything! */
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.8rem;
 }
 
 body {
   background-color: black;
+  background-image: url("/images/loginbg.png");
+  background-size: cover;
   color: white;
-  font-family: sans-serif;
 }
 
-.center-over-view {
-  width: 100%;
-  height: 100%;
+/* Object-specific attributes */
+
+#maincontent {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#loginbox {
+  /* These rules are meant for all children */
+  color: black;
+  display: flex;
+  flex-direction: column;
+
+  /* These rules are meant for this box */
+  background-color: white;
+  padding: 20px;
+  width: 60%;
+  height: min-content;
+  border-radius: 15px;
+  outline: solid 1px gray;
+}
+
+#loginform {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+#signinheading {
+  margin: 30px;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: black;
+}
+
+#requiredfieldindicator {
+  margin-bottom: 20px;
+}
+
+#signinbutton {
+  /* How it looks */
+  background-color: gray;
+  font-size: 1.1rem;
+  color: white;
+  border: 0;
+  border-radius: 20px;
+
+  /* Padding */
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  /* Leave a bit of top space between other form items and this */
+  margin-top: 40px;
+
+  /* Anchor to right */
+  margin-left: auto;
+
+  /* Need to reapply font for some reason */
+  font-family: "Montserrat", sans-serif;
+}
+
+/* WARNING: Remains unused for now! */
+#hidepassbutton {
+  color: gray;
+  background: none;
+  border: none;
+
+  /* Anchor to right side of container */
+  margin-left: auto;
+
+  /* Need to reapply font for some reason */
+  font-family: "Montserrat", sans-serif;
+}
+
+#keepsignincontainer {
+  margin-top: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
+/* Classes; generic attributes */
+
+.formlabel {
+  color: gray;
+  width: 100%;
 }
 
-.margin {
-  margin: 10px;
+.forminput {
+  padding: 11px;
+  width: 100%;
+  border: solid 1px gray;
+  border-radius: 6px;
+  outline: 0;
 }
 
-.fixed-width {
-  width: 200px;
+.leavebottomspace {
+  margin-bottom: 20px;
+}
+
+.resetlink {
+  margin-bottom: 12px;
+  color: black;
+  font-weight: bold;
+}
+
+.formcheckbox {
+  margin: 0;
+}
+
+.formcheckboxlabel {
+  margin-left: 5px;
 }
