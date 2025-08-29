@@ -1,2 +1,60 @@
 # Keep SSH keys outside of git and manage carefully! 
 .ssh/**
+
+# Composer dependencies
+/vendor/
+
+# Node modules (if using Node.js)
+node_modules/
+
+# Logs
+*.log
+logs/
+log/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Database files
+*.sql
+*.sqlite
+*.db
+
+# Cache files
+cache/
+*.cache
+
+# IDE and editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Thumbnails
+Thumbs.db
+
+# Backup files
+*~
+*.bak
+*.swp
+
+# PHPStorm specific files
+/.idea/
+*.iml
+
+# Other
+/public/uploads/

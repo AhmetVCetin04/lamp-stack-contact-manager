@@ -6,15 +6,41 @@
 </head>
 
 <body>
-  <div class="center-over-view column">
-    <h1>
-      <i>App Name Here</i>
-    </h1>
-    <form action="HTTP_ENDPOINT" class="column">
-      <!-- label "for" is bound to id -->
-      <input id="username" name="username" type="text" placeholder="Username" class="margin fixed-width">
-      <input id="password" name="password" type="password" placeholder="Password" class="margin fixed-width">
-    </form>
+  <div id="maincontent">
+    <!-- "Sign in or create account" -->
+    <span id="signinheading">Sign in or create an account</span>
+
+    <!-- The white login box -->
+    <div id="loginbox">
+
+      <!-- The inner contents of the login box (aka login form) -->
+      <form id="loginform">
+        <!-- * Indicator -->
+        <span id="requiredfieldindicator">*Indicates required field</span>
+
+        <!-- Username -->
+        <label for="username" class="formlabel" name="username">*Username</label>
+        <input type="text" class="forminput leavebottomspace" name="username">
+
+        <!-- Password -->
+        <label for="password" class="formlabel" name="password">*Password</label>
+        <input type="password" class="forminput" name="password">
+
+        <!-- "Keep me signed in" checkbox -->
+        <div id="keepsignincontainer" class="leavebottomspace">
+          <input type="checkbox" name="keepsignin" class="formcheckbox" />
+          <label for="keepsignin" class="formlabel formcheckboxlabel" name="keepsignin">Keep me signed in</label>
+        </div>
+
+        <!-- Reset links -->
+        <a class="resetlink" href="">Forgot your username?</a>
+        <a class="resetlink" href="">Forgot your password?</a>
+
+        <!-- Signin button -->
+        <button id="signinbutton">Sign In</button>
+
+      </form>
+    </div>
   </div>
 </body>
 
