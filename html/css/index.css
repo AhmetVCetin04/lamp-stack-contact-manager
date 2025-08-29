@@ -17,6 +17,7 @@ body {
   background-image: url("/images/loginbg.png");
   background-size: cover;
   color: white;
+  background-position: center 30%;
 }
 
 /* Object-specific attributes */
