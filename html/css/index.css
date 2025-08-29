@@ -108,6 +108,11 @@ body {
   justify-content: center;
 }
 
+#contactstable {
+  background-color: white;
+  color: black;
+}
+
 /* Classes; generic attributes */
 
 .formlabel {
@@ -139,4 +144,26 @@ body {
 
 .formcheckboxlabel {
   margin-left: 5px;
+}
+
+.tablerow-head {
+  background-color: rgba(200, 200, 200, 255);
+}
+
+.tablerow-a {
+  background-color: white;
+}
+
+.tablerow-b {
+  background-color: rgba(200, 200, 200, 255);
+}
+
+.tablecell {
+  padding: 5px;
+}
+
+/** Give stuff in table some breathing room */
+th,
+td {
+  padding: 8px;
 }
