@@ -70,8 +70,7 @@ function handleLogin(event) {
   const formData = new FormData(event.target);
   const loginData = {
     login: formData.get("username"),
-    password: formData.get("password"),
-    keep_signed_in: formData.get("keepsignin") === "on"
+    password: formData.get("password")
   };
 
   // Show loading state

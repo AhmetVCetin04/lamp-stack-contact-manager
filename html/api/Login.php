@@ -2,15 +2,14 @@
 require_once 'AuthService.php';
 
 $inData = getRequestInfo();
-$keepSignedIn = isset($inData["keep_signed_in"]) ? $inData["keep_signed_in"] : false;
 
-$result = AuthService::authenticate($inData["login"], $inData["password"], $keepSignedIn);
+$result = AuthService::authenticate($inData["login"], $inData["password"]);
 
 if (isset($result['error'])) {
 	returnWithError($result['error']);
 } else {
 	$user = $result['user'];
-	returnWithInfo($user['firstName'], $user['lastName'], $user['id'], $result['keepSignedIn']);
+	returnWithInfo($user['firstName'], $user['lastName'], $user['id']);
 }
 
 // Function to get and decode the JSON request body
@@ -41,9 +40,9 @@ function returnWithError($err)
 }
 
 // Function to return user info as JSON
-function returnWithInfo($firstName, $lastName, $id, $keepSignedIn = false)
+function returnWithInfo($firstName, $lastName, $id)
 {
 	// Build a JSON string with the user's info
-	$retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","keepSignedIn":' . ($keepSignedIn ? 'true' : 'false') . ',"error":""}';
+	$retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
 	sendResultInfoAsJson($retValue);
 }
