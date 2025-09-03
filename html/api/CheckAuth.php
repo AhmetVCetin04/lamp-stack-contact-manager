@@ -1,4 +1,5 @@
 <?php
+require_once 'AuthService.php';
 
 // Handle OPTIONS request for CORS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -16,58 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-$currentUser = checkCookieAuth();
+$currentUser = AuthService::checkAuthentication();
 
 if ($currentUser) {
     returnWithSuccess(true, $currentUser);
 } else {
     returnWithSuccess(false, null);
-}
-
-function checkCookieAuth()
-{
-    if (!isset($_COOKIE['stay_signed_in'])) {
-        return null;
-    }
-
-    try {
-        // Decrypt the cookie data
-        $secretKey = 'contact_manager_secret_key_2024';
-        $iv = substr(hash('sha256', $secretKey), 0, 16);
-        $decryptedData = openssl_decrypt($_COOKIE['stay_signed_in'], 'AES-128-CBC', $secretKey, 0, $iv);
-
-        if ($decryptedData === false) {
-            return null;
-        }
-
-        $userData = json_decode($decryptedData, true);
-        if (!$userData || !isset($userData['user_id'])) {
-            return null;
-        }
-
-        // Verify user still exists in database
-        $conn = new mysqli("127.0.0.1", "root", "gA5cGi6WndELh5Ky", "contact_manager");
-        if ($conn->connect_error) {
-            return null;
-        }
-
-        $stmt = $conn->prepare("SELECT id, first_name, last_name, user_name, email FROM users_table WHERE id = ?");
-        $stmt->bind_param("i", $userData['user_id']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($row = $result->fetch_assoc()) {
-            $stmt->close();
-            $conn->close();
-            return $row;
-        }
-
-        $stmt->close();
-        $conn->close();
-        return null;
-    } catch (Exception $e) {
-        return null;
-    }
 }
 
 function sendResultInfoAsJson($obj)
@@ -83,7 +38,7 @@ function sendResultInfoAsJson($obj)
 function returnWithSuccess($authenticated, $user)
 {
     if ($authenticated && $user) {
-        $retValue = '{"authenticated": true, "user": {"id": ' . $user['id'] . ', "firstName": "' . $user['first_name'] . '", "lastName": "' . $user['last_name'] . '", "userName": "' . $user['user_name'] . '", "email": "' . $user['email'] . '"}}';
+        $retValue = '{"authenticated": true, "user": {"id": ' . $user['id'] . ', "firstName": "' . $user['firstName'] . '", "lastName": "' . $user['lastName'] . '", "userName": "' . $user['userName'] . '", "email": "' . $user['email'] . '"}}';
     } else {
         $retValue = '{"authenticated": false, "user": null}';
     }

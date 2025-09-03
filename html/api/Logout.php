@@ -1,4 +1,5 @@
 <?php
+require_once 'AuthService.php';
 
 // Handle OPTIONS request for CORS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -16,14 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     exit;
 }
 
-// Clear the stay signed in cookie
-if (isset($_COOKIE['stay_signed_in'])) {
-    // Set cookie with past expiration to delete it
-    setcookie('stay_signed_in', '', time() - 3600, '/', '', false, true);
-    returnWithSuccess("Logged out successfully");
-} else {
-    returnWithSuccess("No active session found");
-}
+$result = AuthService::logout();
+returnWithSuccess($result['message']);
 
 function sendResultInfoAsJson($obj)
 {
