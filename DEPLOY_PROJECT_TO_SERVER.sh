@@ -19,7 +19,7 @@ copy_project() {
     
     # Copy API files (backend)
     echo "Copying API files..."
-    scp -r -i "$SSH_KEY" ./api/* "$SERVER_USER@$SERVER_ADDR:$SERVER_API_PATH/"
+    scp -r -i "$SSH_KEY" ./html/api/* "$SERVER_USER@$SERVER_ADDR:$SERVER_API_PATH/"
     
     echo "Deployment completed successfully!"
     echo "Your contact manager is available at: http://165.232.128.10/"

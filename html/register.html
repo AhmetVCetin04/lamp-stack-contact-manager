@@ -1,0 +1,57 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/index.css" />
+  <script src="js/auth.js"></script>
+</head>
+
+<body>
+  <div id="maincontent">
+    <!-- "Create account" -->
+    <span id="signinheading">Create an account</span>
+
+    <!-- The white register box -->
+    <div id="loginbox">
+
+      <!-- The inner contents of the register box (aka register form) -->
+      <form id="registerform" onsubmit="handleRegister(event)">
+        <!-- * Indicator -->
+        <span id="requiredfieldindicator">*Indicates required field</span>
+
+        <!-- First Name -->
+        <label for="firstName" class="formlabel" name="firstName">*First Name</label>
+        <input type="text" class="forminput leavebottomspace" name="firstName" required>
+
+        <!-- Last Name -->
+        <label for="lastName" class="formlabel" name="lastName">*Last Name</label>
+        <input type="text" class="forminput leavebottomspace" name="lastName" required>
+
+        <!-- Username -->
+        <label for="username" class="formlabel" name="username">*Username</label>
+        <input type="text" class="forminput leavebottomspace" name="username" required>
+
+        <!-- Email -->
+        <label for="email" class="formlabel" name="email">*Email</label>
+        <input type="email" class="forminput leavebottomspace" name="email" required>
+
+        <!-- Password -->
+        <label for="password" class="formlabel" name="password">*Password</label>
+        <input type="password" class="forminput leavebottomspace" name="password" required>
+
+        <!-- Confirm Password -->
+        <label for="confirmPassword" class="formlabel" name="confirmPassword">*Confirm Password</label>
+        <input type="password" class="forminput" name="confirmPassword" required>
+
+        <!-- Login link -->
+        <a class="resetlink" href="index.html">Already have an account? Sign in</a>
+
+        <!-- Register button -->
+        <button id="signinbutton" type="submit">Create Account</button>
+
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
