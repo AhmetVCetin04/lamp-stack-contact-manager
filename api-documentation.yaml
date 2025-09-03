@@ -1,0 +1,533 @@
+openapi: 3.0.3
+info:
+  title: Contact Manager API
+  description: |
+    POOSD Team 20 - Contact Management API
+    
+    A RESTful API for user authentication and contact management with the following features:
+    - Secure user registration and authentication
+    - Full CRUD operations for personal contacts  
+    - Search functionality with partial matching
+    - Cookie-based persistent authentication
+    - User data isolation and secure password handling
+  version: 1.0.0
+  contact:
+    name: POOSD Team 20
+    email: team20@ucf.edu
+  license:
+    name: Academic Project
+    url: https://github.com/your-repo/license
+servers:
+  - url: http://165.232.128.10/api
+    description: Production server
+paths:
+  /CheckAuth.php:
+    get:
+      summary: Check authentication status
+      description: Verify if user is authenticated via session cookie
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Authentication status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authenticated:
+                    type: boolean
+                    description: Whether user is authenticated
+                  user:
+                    type: object
+                    nullable: true
+                    properties:
+                      id:
+                        type: integer
+                        description: User ID
+                      firstName:
+                        type: string
+                        description: User's first name
+                      lastName:
+                        type: string
+                        description: User's last name
+                      userName:
+                        type: string
+                        description: Username
+                      email:
+                        type: string
+                        description: Email address
+
+  /Logout.php:
+    delete:
+      summary: User logout
+      description: Clear authentication cookie and log user out
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Logout response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether logout was successful
+                    example: true
+                  message:
+                    type: string
+                    description: Success message
+                    example: "Logged out successfully"
+
+  /Login.php:
+    post:
+      summary: User login
+      description: |
+        Authenticate user with username/email and password.
+        Server automatically sets HTTP-only persistent cookie for automatic authentication.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  description: Username or email address
+                  example: "john_doe"
+                password:
+                  type: string
+                  description: User password
+                  example: "mypassword123"
+              required:
+                - login
+                - password
+            examples:
+              login:
+                summary: User login
+                value:
+                  login: "john_doe"
+                  password: "mypassword123"
+      responses:
+        '200':
+          description: Login response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: User ID
+                    example: 1
+                  firstName:
+                    type: string
+                    description: User's first name
+                    example: "John"
+                  lastName:
+                    type: string
+                    description: User's last name
+                    example: "Doe"
+                  error:
+                    type: string
+                    description: Error message if login failed
+                    example: ""
+              examples:
+                successful_login:
+                  summary: Successful login
+                  value:
+                    id: 1
+                    firstName: "John"
+                    lastName: "Doe"
+                    error: ""
+                failed_login:
+                  summary: Failed login
+                  value:
+                    id: 0
+                    firstName: ""
+                    lastName: ""
+                    error: "Invalid username or password"
+
+  /Register.php:
+    post:
+      summary: User registration
+      description: Register a new user account with unique username and email
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  description: Unique username
+                  example: "john_doe"
+                first_name:
+                  type: string
+                  description: First name
+                  example: "John"
+                last_name:
+                  type: string
+                  description: Last name
+                  example: "Doe"
+                email:
+                  type: string
+                  format: email
+                  description: Email address
+                  example: "john@example.com"
+                password:
+                  type: string
+                  description: Password (will be hashed)
+                  example: "mypassword123"
+              required:
+                - user_name
+                - first_name
+                - last_name
+                - email
+                - password
+      responses:
+        '200':
+          description: Registration response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: New user ID
+                  firstName:
+                    type: string
+                    description: User's first name
+                  lastName:
+                    type: string
+                    description: User's last name
+                  error:
+                    type: string
+                    description: Error message if registration failed
+
+  /CreateContact.php:
+    post:
+      summary: Create a new contact
+      description: Add a new contact for the authenticated user (authentication via cookie)
+      tags:
+        - Contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: Contact's first name
+                  example: "Jane"
+                last_name:
+                  type: string
+                  description: Contact's last name
+                  example: "Smith"
+                email:
+                  type: string
+                  format: email
+                  description: Contact's email address
+                  example: "jane.smith@example.com"
+                phone_number:
+                  type: string
+                  description: Contact's phone number
+                  example: "+1-555-123-4567"
+              required:
+                - first_name
+                - last_name
+      responses:
+        '200':
+          description: Contact creation response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the operation was successful
+                  message:
+                    type: string
+                    description: Success message
+                  contact_id:
+                    type: integer
+                    description: ID of the created contact
+                  error:
+                    type: string
+                    description: Error message if creation failed
+
+  /GetContacts.php:
+    get:
+      summary: Get all contacts for a user
+      description: Retrieve all contacts belonging to the authenticated user (authentication via cookie)
+      tags:
+        - Contacts
+      parameters: []
+      responses:
+        '200':
+          description: List of contacts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the operation was successful
+                  contacts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        contact_id:
+                          type: integer
+                        first_name:
+                          type: string
+                        last_name:
+                          type: string
+                        email:
+                          type: string
+                        phone_number:
+                          type: string
+                        record_created:
+                          type: string
+                          format: date
+                  error:
+                    type: string
+                    description: Error message if retrieval failed
+
+  /UpdateContact.php:
+    put:
+      summary: Update a contact
+      description: Update an existing contact belonging to the authenticated user (authentication via cookie)
+      tags:
+        - Contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contact_id:
+                  type: integer
+                  description: ID of the contact to update
+                  example: 5
+                first_name:
+                  type: string
+                  description: Updated first name
+                  example: "Jane"
+                last_name:
+                  type: string
+                  description: Updated last name
+                  example: "Doe"
+                email:
+                  type: string
+                  format: email
+                  description: Updated email address
+                  example: "jane.doe@example.com"
+                phone_number:
+                  type: string
+                  description: Updated phone number
+                  example: "+1-555-987-6543"
+              required:
+                - contact_id
+      responses:
+        '200':
+          description: Contact update response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the operation was successful
+                  message:
+                    type: string
+                    description: Success message
+                  error:
+                    type: string
+                    description: Error message if update failed
+
+  /DeleteContact.php:
+    delete:
+      summary: Delete a contact
+      description: Delete an existing contact belonging to the authenticated user (authentication via cookie)
+      tags:
+        - Contacts
+      parameters:
+        - name: contact_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: ID of the contact to delete
+          example: 5
+      responses:
+        '200':
+          description: Contact deletion response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the operation was successful
+                  message:
+                    type: string
+                    description: Success message
+                  error:
+                    type: string
+                    description: Error message if deletion failed
+
+  /SearchContacts.php:
+    get:
+      summary: Search contacts
+      description: Search contacts belonging to the authenticated user with partial matching (authentication via cookie)
+      tags:
+        - Contacts
+      parameters:
+        - name: search_term
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Search term to match against contact fields
+          example: "jane"
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the operation was successful
+                  search_term:
+                    type: string
+                    description: The search term used
+                  results_count:
+                    type: integer
+                    description: Number of contacts found
+                  contacts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        contact_id:
+                          type: integer
+                        first_name:
+                          type: string
+                        last_name:
+                          type: string
+                        email:
+                          type: string
+                        phone_number:
+                          type: string
+                        record_created:
+                          type: string
+                          format: date
+                  error:
+                    type: string
+                    description: Error message if search failed
+
+components:
+  schemas:
+    Contact:
+      type: object
+      properties:
+        contact_id:
+          type: integer
+          description: Unique contact identifier
+          example: 5
+        first_name:
+          type: string
+          description: Contact's first name
+          example: "Jane"
+        last_name:
+          type: string
+          description: Contact's last name
+          example: "Smith"
+        email:
+          type: string
+          format: email
+          description: Contact's email address
+          example: "jane@example.com"
+        phone_number:
+          type: string
+          description: Contact's phone number
+          example: "+1-555-123-4567"
+        record_created:
+          type: string
+          format: date
+          description: Date when contact was created
+          example: "2024-01-15"
+    
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique user identifier
+          example: 1
+        user_name:
+          type: string
+          description: Username
+          example: "john_doe"
+        first_name:
+          type: string
+          description: User's first name
+          example: "John"
+        last_name:
+          type: string
+          description: User's last name
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "john@example.com"
+          
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          description: Error message describing what went wrong
+          example: "Invalid user credentials"
+          
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: "Operation completed successfully"
+
+tags:
+  - name: Authentication
+    description: User authentication and session management
+  - name: Contacts
+    description: Contact management operations

@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="css/index.css" />
+  <script src="js/auth.js"></script>
 </head>
 
 <body>
@@ -14,7 +15,7 @@
     <div id="loginbox">
 
       <!-- The inner contents of the login box (aka login form) -->
-      <form id="loginform">
+      <form id="loginform" onsubmit="handleLogin(event)">
         <!-- * Indicator -->
         <span id="requiredfieldindicator">*Indicates required field</span>
 
@@ -26,18 +27,12 @@
         <label for="password" class="formlabel" name="password">*Password</label>
         <input type="password" class="forminput" name="password">
 
-        <!-- "Keep me signed in" checkbox -->
-        <div id="keepsignincontainer" class="leavebottomspace">
-          <input type="checkbox" name="keepsignin" class="formcheckbox" />
-          <label for="keepsignin" class="formlabel formcheckboxlabel" name="keepsignin">Keep me signed in</label>
-        </div>
-
-        <!-- Reset links -->
-        <a class="resetlink" href="">Forgot your username?</a>
-        <a class="resetlink" href="">Forgot your password?</a>
+        
+        <!-- Register link -->
+        <a class="resetlink" href="register.html">Don't have an account? Create one</a>
 
         <!-- Signin button -->
-        <button id="signinbutton">Sign In</button>
+        <button id="signinbutton" type="submit">Sign In</button>
 
       </form>
     </div>
