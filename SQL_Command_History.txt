@@ -3,22 +3,20 @@ USE contact_manager;
 
 CREATE TABLE users_table (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_name VARCHAR(50)
+  user_name VARCHAR(50) UNIQUE,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  email VARCHAR(100) UNIQUE,
+  password VARCHAR(255)
 );
 
 CREATE TABLE contact_table (
+  contact_id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(50),
   last_name VARCHAR(50),
   email VARCHAR(50),
   phone_number VARCHAR(20),
-  record_created DATE
+  record_created DATE DEFAULT (CURRENT_DATE),
+  user_id INT,
+  CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users_table(id)
 );
-
-ALTER TABLE contact_table
-  ADD COLUMN user_id INT;
-
-ALTER TABLE contact_table
-  ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users_table(id);
-
-ALTER TABLE contact_table
-  ADD COLUMN contact_id INT AUTO_INCREMENT PRIMARY KEY FIRST;
