@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+html {
+  all: unset;
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.9rem;
+}
+
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+#maincontent {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#header {
+  background-color: white;
+  padding: 20px 40px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+#userInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#welcome {
+  font-size: 1rem;
+  color: #666;
+}
+
+#user-name {
+  font-weight: 600;
+  color: #333;
+}
+
+#logoutButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+#logoutButton:hover {
+  background-color: #c82333;
+}
+
+#content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#welcomeMessage {
+  text-align: center;
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  max-width: 600px;
+}
+
+#welcomeMessage h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#welcomeMessage p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}

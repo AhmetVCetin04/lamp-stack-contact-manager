@@ -9,17 +9,9 @@ copy_project() {
     echo "Deploying Contact Manager to server..."
     echo "Looking for SSH key: '$SSH_KEY'"
     
-    # Create API directory if it doesn't exist
-    echo "Creating API directory on server..."
-    ssh -i "$SSH_KEY" "$SERVER_USER@$SERVER_ADDR" "mkdir -p $SERVER_API_PATH"
-    
-    # Copy HTML files (frontend)
-    echo "Copying frontend files..."
+    # Copy entire project (frontend + API)
+    echo "Copying project files..."
     scp -r -i "$SSH_KEY" ./html/* "$SERVER_USER@$SERVER_ADDR:$SERVER_WEB_PATH/"
-    
-    # Copy API files (backend)
-    echo "Copying API files..."
-    scp -r -i "$SSH_KEY" ./api/* "$SERVER_USER@$SERVER_ADDR:$SERVER_API_PATH/"
     
     echo "Deployment completed successfully!"
     echo "Your contact manager is available at: http://165.232.128.10/"

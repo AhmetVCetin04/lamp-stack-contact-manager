@@ -1,10 +1,22 @@
 openapi: 3.0.3
 info:
   title: Contact Manager API
-  description: LAMP stack contact manager API for user authentication and contact management
+  description: |
+    POOSD Team 20 - Contact Management API
+    
+    A RESTful API for user authentication and contact management with the following features:
+    - Secure user registration and authentication
+    - Full CRUD operations for personal contacts  
+    - Search functionality with partial matching
+    - Cookie-based persistent authentication
+    - User data isolation and secure password handling
   version: 1.0.0
   contact:
     name: POOSD Team 20
+    email: team20@ucf.edu
+  license:
+    name: Academic Project
+    url: https://github.com/your-repo/license
 servers:
   - url: http://165.232.128.10/api
     description: Production server
@@ -12,7 +24,9 @@ paths:
   /CheckAuth.php:
     get:
       summary: Check authentication status
-      description: Verify if user is authenticated via cookie
+      description: Verify if user is authenticated via session cookie
+      tags:
+        - Authentication
       responses:
         '200':
           description: Authentication status
@@ -48,6 +62,8 @@ paths:
     delete:
       summary: User logout
       description: Clear authentication cookie and log user out
+      tags:
+        - Authentication
       responses:
         '200':
           description: Logout response
@@ -59,14 +75,20 @@ paths:
                   success:
                     type: boolean
                     description: Whether logout was successful
+                    example: true
                   message:
                     type: string
                     description: Success message
+                    example: "Logged out successfully"
 
   /Login.php:
     post:
       summary: User login
-      description: Authenticate user with username/email and password, with optional stay signed in
+      description: |
+        Authenticate user with username/email and password.
+        Server automatically sets HTTP-only persistent cookie for automatic authentication.
+      tags:
+        - Authentication
       requestBody:
         required: true
         content:
@@ -76,20 +98,21 @@ paths:
               properties:
                 login:
                   type: string
-                  description: Username or email
+                  description: Username or email address
                   example: "john_doe"
                 password:
                   type: string
                   description: User password
                   example: "mypassword123"
-                keep_signed_in:
-                  type: boolean
-                  description: Whether to keep user signed in (generates session token)
-                  example: true
-                  default: false
               required:
                 - login
                 - password
+            examples:
+              login:
+                summary: User login
+                value:
+                  login: "john_doe"
+                  password: "mypassword123"
       responses:
         '200':
           description: Login response
@@ -101,23 +124,41 @@ paths:
                   id:
                     type: integer
                     description: User ID
+                    example: 1
                   firstName:
                     type: string
                     description: User's first name
+                    example: "John"
                   lastName:
                     type: string
                     description: User's last name
-                  keepSignedIn:
-                    type: boolean
-                    description: Whether user chose to stay signed in
+                    example: "Doe"
                   error:
                     type: string
                     description: Error message if login failed
+                    example: ""
+              examples:
+                successful_login:
+                  summary: Successful login
+                  value:
+                    id: 1
+                    firstName: "John"
+                    lastName: "Doe"
+                    error: ""
+                failed_login:
+                  summary: Failed login
+                  value:
+                    id: 0
+                    firstName: ""
+                    lastName: ""
+                    error: "Invalid username or password"
 
   /Register.php:
     post:
       summary: User registration
-      description: Register a new user account
+      description: Register a new user account with unique username and email
+      tags:
+        - Authentication
       requestBody:
         required: true
         content:
@@ -176,7 +217,9 @@ paths:
   /CreateContact.php:
     post:
       summary: Create a new contact
-      description: Add a new contact for the authenticated user (authentication via user_id parameter or cookie)
+      description: Add a new contact for the authenticated user (authentication via cookie)
+      tags:
+        - Contacts
       requestBody:
         required: true
         content:
@@ -184,10 +227,6 @@ paths:
             schema:
               type: object
               properties:
-                user_id:
-                  type: integer
-                  description: ID of the user creating the contact (optional if authenticated via cookie)
-                  example: 1
                 first_name:
                   type: string
                   description: Contact's first name
@@ -232,15 +271,10 @@ paths:
   /GetContacts.php:
     get:
       summary: Get all contacts for a user
-      description: Retrieve all contacts belonging to the authenticated user (authentication via user_id parameter or cookie)
-      parameters:
-        - name: user_id
-          in: query
-          required: false
-          schema:
-            type: integer
-          description: ID of the user whose contacts to retrieve (optional if authenticated via cookie)
-          example: 1
+      description: Retrieve all contacts belonging to the authenticated user (authentication via cookie)
+      tags:
+        - Contacts
+      parameters: []
       responses:
         '200':
           description: List of contacts
@@ -277,7 +311,9 @@ paths:
   /UpdateContact.php:
     put:
       summary: Update a contact
-      description: Update an existing contact belonging to the authenticated user (authentication via user_id parameter or cookie)
+      description: Update an existing contact belonging to the authenticated user (authentication via cookie)
+      tags:
+        - Contacts
       requestBody:
         required: true
         content:
@@ -289,10 +325,6 @@ paths:
                   type: integer
                   description: ID of the contact to update
                   example: 5
-                user_id:
-                  type: integer
-                  description: ID of the user who owns the contact
-                  example: 1
                 first_name:
                   type: string
                   description: Updated first name
@@ -312,7 +344,6 @@ paths:
                   example: "+1-555-987-6543"
               required:
                 - contact_id
-                - user_id
       responses:
         '200':
           description: Contact update response
@@ -334,7 +365,9 @@ paths:
   /DeleteContact.php:
     delete:
       summary: Delete a contact
-      description: Delete an existing contact belonging to the authenticated user (authentication via user_id parameter or cookie)
+      description: Delete an existing contact belonging to the authenticated user (authentication via cookie)
+      tags:
+        - Contacts
       parameters:
         - name: contact_id
           in: query
@@ -343,13 +376,6 @@ paths:
             type: integer
           description: ID of the contact to delete
           example: 5
-        - name: user_id
-          in: query
-          required: false
-          schema:
-            type: integer
-          description: ID of the user who owns the contact (optional if authenticated via cookie)
-          example: 1
       responses:
         '200':
           description: Contact deletion response
@@ -371,15 +397,10 @@ paths:
   /SearchContacts.php:
     get:
       summary: Search contacts
-      description: Search contacts belonging to the authenticated user with partial matching (authentication via user_id parameter or cookie)
+      description: Search contacts belonging to the authenticated user with partial matching (authentication via cookie)
+      tags:
+        - Contacts
       parameters:
-        - name: user_id
-          in: query
-          required: false
-          schema:
-            type: integer
-          description: ID of the user whose contacts to search (optional if authenticated via cookie)
-          example: 1
         - name: search_term
           in: query
           required: true
@@ -434,23 +455,29 @@ components:
         contact_id:
           type: integer
           description: Unique contact identifier
+          example: 5
         first_name:
           type: string
           description: Contact's first name
+          example: "Jane"
         last_name:
           type: string
           description: Contact's last name
+          example: "Smith"
         email:
           type: string
           format: email
           description: Contact's email address
+          example: "jane@example.com"
         phone_number:
           type: string
           description: Contact's phone number
+          example: "+1-555-123-4567"
         record_created:
           type: string
           format: date
           description: Date when contact was created
+          example: "2024-01-15"
     
     User:
       type: object
@@ -458,16 +485,49 @@ components:
         id:
           type: integer
           description: Unique user identifier
+          example: 1
         user_name:
           type: string
           description: Username
+          example: "john_doe"
         first_name:
           type: string
           description: User's first name
+          example: "John"
         last_name:
           type: string
           description: User's last name
+          example: "Doe"
         email:
           type: string
           format: email
           description: User's email address
+          example: "john@example.com"
+          
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          description: Error message describing what went wrong
+          example: "Invalid user credentials"
+          
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: "Operation completed successfully"
+
+tags:
+  - name: Authentication
+    description: User authentication and session management
+  - name: Contacts
+    description: Contact management operations
