@@ -198,8 +198,8 @@ function handleRegister(event) {
         submitButton.textContent = originalText;
         submitButton.disabled = false;
       } else {
-        // Registration successful - redirect to dashboard
-        window.location.href = "dashboard.html";
+        // Registration successful - redirect to login
+        window.location.href = "index.html";
       }
     })
     .catch(error => {
