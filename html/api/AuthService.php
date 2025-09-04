@@ -4,7 +4,7 @@ class AuthService
 {
     private static $secretKey = 'contact_manager_secret_key_2024';
     private static $dbHost = "127.0.0.1";
-    private static $dbUser = "root";
+    private static $dbUser = "admin";
     private static $dbPass = "gA5cGi6WndELh5Ky";
     private static $dbName = "contact_manager";
 
