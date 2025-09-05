@@ -2,7 +2,7 @@
 
 POOSD Team 20 - Contact Management API
 
-**Base URL:** `http://165.232.128.10/api`
+**Base URL:** `http://165.232.128.10/api`  
 **SwaggerHub URL** `https://app.swaggerhub.com/apis/universityofcentralf-9ab/Contact-Manager/1`
 
 ## Authentication
