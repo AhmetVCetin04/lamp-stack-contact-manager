@@ -4,7 +4,7 @@ require_once 'auth_helper.php';
 
 $inData = getRequestInfo();
 
-$conn = new mysqli("127.0.0.1", "root", "gA5cGi6WndELh5Ky", "contact_manager");
+$conn = new mysqli("127.0.0.1", "admin", "gA5cGi6WndELh5Ky", "contact_manager");
 
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
