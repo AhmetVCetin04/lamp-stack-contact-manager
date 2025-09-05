@@ -191,7 +191,3 @@ All endpoints return errors in this format:
   "error": "Error description here"
 }
 ```
-
-## Testing
-
-- **Swagger Documentation**: [`api-documentation.yaml`](./api-documentation.yaml)
