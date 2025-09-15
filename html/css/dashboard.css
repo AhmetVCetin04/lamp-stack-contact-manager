@@ -27,7 +27,7 @@ body {
 #header {
   background-color: white;
   padding: 20px 40px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -85,7 +85,7 @@ body {
   background-color: white;
   padding: 40px;
   border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 600px;
 }
 
@@ -100,4 +100,32 @@ body {
   font-size: 1rem;
   color: #666;
   line-height: 1.5;
+}
+
+/* Authored by Rafa */
+
+#contacts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.contacts-row {
+  height: 50px;
+  /* Row height */
+}
+
+.contacts-row:nth-child(even) {
+  background-color: #f0f0f0;
+  /* Light gray for even rows */
+}
+
+.contacts-row:nth-child(odd) {
+  background-color: #ffffff;
+  /* White for odd rows */
+}
+
+.contacts-row td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  /* Light border for table cells */
 }
