@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", function() {
 });
 
 function checkAuthStatus() {
-  fetch("/api/CheckAuth.php", {
+  fetch(window.apiEndpoint("CheckAuth.php"), {
     method: "GET",
     credentials: "include"
   })
@@ -79,7 +79,7 @@ function handleLogin(event) {
   submitButton.textContent = "Signing in...";
   submitButton.disabled = true;
 
-  fetch("/api/Login.php", {
+  fetch(window.apiEndpoint("Login.php"), {
     method: "POST",
     credentials: "include",
     headers: {
@@ -108,7 +108,7 @@ function handleLogin(event) {
 
 // Logout function
 function logout() {
-  fetch("/api/Logout.php", {
+  fetch(window.apiEndpoint("Logout.php"), {
     method: "DELETE",
     credentials: "include"
   })
@@ -183,7 +183,7 @@ function handleRegister(event) {
   submitButton.textContent = "Creating Account...";
   submitButton.disabled = true;
 
-  fetch("/api/Register.php", {
+  fetch(window.apiEndpoint("Register.php"), {
     method: "POST",
     credentials: "include",
     headers: {
