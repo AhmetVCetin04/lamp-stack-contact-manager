@@ -1,3 +1,35 @@
+function createContactsTable() {
+  const table = document.createElement("table");
+  table.id = "contacts-table";
+
+  const headerRow = document.createElement("tr");
+  headerRow.classList.add("contacts-row");
+
+  const headers = ["First", "Last", "Email", "Phone"];
+
+  headers.forEach(headerText => {
+    const th = document.createElement("th");
+    th.textContent = headerText;
+    headerRow.appendChild(th);
+  });
+
+  table.appendChild(headerRow);
+
+  return table;
+}
+
+function displayContactFetchFailure() {
+  const container = document.getElementById("contacts-table-container");
+  if (container) {
+    container.innerHTML = "";
+    const failMessage = document.createElement("p");
+    failMessage.textContent = "Connection fail";
+    failMessage.style.color = "red";
+    failMessage.style.textAlign = "center";
+    container.appendChild(failMessage);
+  }
+}
+
 function addContactToTable(table, contact) {
   // Make row
   const row = document.createElement("tr")
@@ -17,25 +49,23 @@ function addContactToTable(table, contact) {
   table.appendChild(row)
 }
 
-example = [
-  {
-    "first": "Rafael",
-    "last": "Niebles",
-    "email": "a@gmail.com",
-    "phone": "786 416 4161",
-  },
-  {
-    "first": "Lily",
-    "last": "Goodman",
-    "email": "b@gmail.com",
-    "phone": "I wish",
-  }
-]
-
-// NOTE: Test
-contactsTable = document.querySelector("#contacts-table tbody")
-console.log("Hello")
-
-example.forEach((contact) => {
-  addContactToTable(contactsTable, contact)
+// Get the contacts list
+fetch("/api/GetContacts.php", {
+  method: "GET",
+  credentials: "include"
 })
+  .then((res) => { return res.json() })
+  .then((resJson) => {
+    contactsTable = document.querySelector("#contacts-table tbody")
+
+    if (resJson.success) {
+      // Create and add contacts to table
+      contactsTable = createContactsTable()
+      resJson.contacts.forEach((contact) => {
+        addContactToTable(contactsTable, contact)
+      })
+    }
+    else {
+      displayContactFetchFailure()
+    }
+  })

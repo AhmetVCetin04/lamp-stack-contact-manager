@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="css/dashboard.css" />
+  <script src="js/auth.js"></script>
 </head>
 
 <body>
@@ -21,36 +22,13 @@
         <h2>Welcome to your Contact Manager!</h2>
         <p>You have successfully logged in. Contact management features will be available here.</p>
 
-        <!-- The table -->
-        <table id="contacts-table">
-          <tr class="contacts-row">
-            <th>First</th>
-            <th>Last</th>
-            <th>Email</th>
-            <th>Phone</th>
-          </tr>
-          <tr class="contacts-row">
-            <td>John Doe</td>
-            <td>(123) 456-7890</td>
-            <td>john.doe@example.com</td>
-            <td>123 Main St, Anytown, USA</td>
-          </tr>
-          <tr class="contacts-row">
-            <td>Jane Smith</td>
-            <td>(987) 654-3210</td>
-            <td>jane.smith@example.com</td>
-            <td>456 Elm St, Othertown, USA</td>
-          </tr>
-          <!-- Add more contacts as needed -->
-        </table>
+        <!-- The table container -->
+        <div id="contacts-table-container">
+        </div>
 
       </div>
     </div>
   </div>
-
-  <script src="js/contacts-table.js" />
-
 </body>
-
 
 </html>

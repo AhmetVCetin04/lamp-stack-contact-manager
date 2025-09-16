@@ -194,3 +194,8 @@ All endpoints return errors in this format:
 ## Testing
 
 - **Swagger Documentation**: [`api-documentation.yaml`](./api-documentation.yaml)
+
+---
+
+If fetch OK -> Make table, add stuff to table
+If fetch N OK -> Add text in place of table saying failure
