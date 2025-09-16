@@ -22,3 +22,6 @@ ALTER TABLE contact_table
 
 ALTER TABLE contact_table
   ADD COLUMN contact_id INT AUTO_INCREMENT PRIMARY KEY FIRST;
+
+ALTER TABLE contact_table
+  MODIFY COLUMN user_id INT NOT NULL;
