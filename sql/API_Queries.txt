@@ -1,0 +1,30 @@
+-- GET SQL QUERY
+SELECT *
+FROM contact_table
+WHERE user_id = <currentLoggedInUsersID>
+  AND (
+    first_name LIKE= '<searchQuery>'
+    OR last_name LIKE= '<searchQuery>'
+    OR email LIKE = '<searchQuery>'
+    OR phone_number = '<searchQuery>'
+  )
+ORDER BY record_created DESC; 
+
+-- ADD SQL QUERY
+INSERT INTO contact_table (first_name, last_name, email, phone_number, record_created, user_id)
+VALUES (given_first_name, given_second_name, given_email, given_phone_number, CURDATE(), current_user_id);
+
+-- QUERY FOR GETALL
+SELECT * FROM contact_table WHERE user_id = <queried_user>
+
+-- QUERY FOR DELETE
+DELETE FROM contact_table WHERE contact_id = <desiredID>
+
+-- QUERY FOR UPDATE
+UPDATE contact_table
+SET first_name = given_first_name,
+    last_name = given_second_name,
+    email = given_email,
+    phone_number = given_phone_number,
+    record_created = CURDATE()
+WHERE user_id = current_user_id;
