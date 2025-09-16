@@ -25,3 +25,6 @@ ALTER TABLE contact_table
 
 ALTER TABLE contact_table
   MODIFY COLUMN user_id INT NOT NULL;
+
+ALTER TABLE users_table ADD UNIQUE (user_name);
+ALTER TABLE users_table ADD UNIQUE (email);
