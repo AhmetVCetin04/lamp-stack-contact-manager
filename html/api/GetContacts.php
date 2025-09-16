@@ -4,7 +4,7 @@ require_once 'auth_helper.php';
 
 // Handle OPTIONS request for CORS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Origin: http://localhost:3000');
     header('Access-Control-Allow-Methods: GET, OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type');
     header('Access-Control-Allow-Credentials: true');
@@ -56,7 +56,7 @@ if ($conn->connect_error) {
 function sendResultInfoAsJson($obj)
 {
     header('Content-type: application/json');
-    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Origin: http://localhost:3000');
     header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type');
     header('Access-Control-Allow-Credentials: true');
