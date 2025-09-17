@@ -32,12 +32,20 @@ function deployPat() {
 
 # Match option to what we want to deploy
 opt="$1"
+
+if [[ -z "$opt" ]];
+then
+  echo "Please specify what to deploy, 'api', 'html', 'css', 'js', or 'all'"
+  exit
+fi
+
 echo "Received option '$opt'"
 case "$opt" in
   # Option         # Source       # Dest
    api)  deployDir ../html/api/   /var/www/html/;;
-  html)  deployPat ../html/*.html /var/www/html/;; # FIXME: This is broken?
+  html)  deployPat ../html/*.html /var/www/html/;;
    css)  deployDir ../html/css/   /var/www/html/;;
     js)  deployDir ../html/js/    /var/www/html/;;
-     *)  deployDir ../html/       /var/www/;;
+   all)  deployDir ../html/       /var/www/;;
+     *)  echo  "This should not happen...";;
 esac
