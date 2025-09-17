@@ -86,25 +86,10 @@ async function loadContacts() {
 
   const tableBody = document.querySelector('#contact-table tbody');
   tableBody.innerHTML = `
-    <tr id="loading-row">
-      <td colspan="5">
-        <div class="spinner"></div>
-      </td>
+    <tr>
+      <td colspan="5" style="text-align: center;">No contacts found.</td>
     </tr>
   `;
-
-  getContacts()
-    .then(data => {
-      if (data.success) {
-        displayContacts(data.contacts);
-      } else {
-        showError(data.error || 'Failed to load contacts');
-      }
-    })
-    .catch(error => {
-      console.error('Error loading contacts:', error);
-      showError('Failed to load contacts');
-    });
 }
 
 // Handle contact form submission
@@ -127,7 +112,13 @@ function handleContactForm(event) {
       .then(data => {
         if (data.success) {
           showSuccess('Contact updated successfully');
-          loadContacts();
+          // Refresh the current search to show the updated contact
+          const searchInput = document.getElementById('contact-search-input');
+          if (searchInput.value) {
+            handleSearch({ target: { value: searchInput.value } });
+          } else {
+            loadContacts();
+          }
           event.target.reset();
         } else {
           showError(data.error || 'Failed to update contact');
@@ -143,7 +134,13 @@ function handleContactForm(event) {
       .then(data => {
         if (data.success) {
           showSuccess('Contact created successfully');
-          loadContacts();
+          // Refresh the current search to show the new contact
+          const searchInput = document.getElementById('contact-search-input');
+          if (searchInput.value) {
+            handleSearch({ target: { value: searchInput.value } });
+          } else {
+            loadContacts();
+          }
           event.target.reset();
         } else {
           showError(data.error || 'Failed to create contact');
@@ -163,7 +160,13 @@ function handleDeleteContact(contactId, contactName) {
       .then(data => {
         if (data.success) {
           showSuccess('Contact deleted successfully');
-          loadContacts();
+          // Refresh the current search
+          const searchInput = document.getElementById('contact-search-input');
+          if (searchInput.value) {
+            handleSearch({ target: { value: searchInput.value } });
+          } else {
+            loadContacts();
+          }
         } else {
           showError(data.error || 'Failed to delete contact');
         }
@@ -177,27 +180,26 @@ function handleDeleteContact(contactId, contactName) {
 
 // Handle search
 function handleSearch(event) {
-  const searchTerm = event.target.value.trim().toLowerCase();
-  const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 0);
-  const tableRows = document.querySelectorAll('#contact-table tbody tr');
+  const searchTerm = event.target.value.trim();
 
-  tableRows.forEach(row => {
-    if (row.id === 'loading-row' || row.querySelector('td[colspan="5"]')) {
-      // Skip loading and "no contacts" rows
-      return;
-    }
-
-    const firstName = row.cells[0].textContent.toLowerCase();
-    const lastName = row.cells[1].textContent.toLowerCase();
-    const email = row.cells[2].textContent.toLowerCase();
-    const phoneNumber = row.cells[3].textContent.toLowerCase();
-
-    const rowContent = `${firstName} ${lastName} ${email} ${phoneNumber}`;
-
-    const match = searchWords.every(word => rowContent.includes(word));
-
-    row.style.display = match ? '' : 'none';
-  });
+  if (searchTerm.length > 0) {
+    searchContacts(searchTerm)
+      .then(data => {
+        if (data.success) {
+          displayContacts(data.contacts);
+          showSearchInfo(data.results_count, data.search_term);
+        } else {
+          showError(data.error || 'Search failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error during search:', error);
+        showError('Search failed');
+      });
+  } else {
+    // If search term is empty, load all contacts
+    displayContacts([]);
+  }
 }
 
 // Utility functions for UI (implement based on your HTML structure)
@@ -329,7 +331,7 @@ function openEditContactModal(contact) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadContacts(); // Load contacts when the page is ready
+  displayContacts([]); // Initially display an empty table
 
   const addContactForm = document.getElementById('add-contact-form');
   if (addContactForm) {
