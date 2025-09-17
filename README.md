@@ -191,3 +191,15 @@ All endpoints return errors in this format:
   "error": "Error description here"
 }
 ```
+
+---
+
+### Running Locally With `live-server`
+
+The site can be run locally using a live server without same-origin getting in the way:
+
+1. `npm install -g live-server`
+2. Run live server; e.g. if using Neovim, run `:LiveServerStart` while buffer `index.html` is open
+3. Live server will run on `localhost:3000` if no configuration is bad
+
+> We must access the live server strictly as `localhost`; `127.0.0.1` or `::1` won't work. The access control header only allows `localhost`.

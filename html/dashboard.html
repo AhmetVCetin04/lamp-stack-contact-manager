@@ -7,14 +7,16 @@
   <script src="js/config.js"></script>
   <script src="js/util.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/contacts.js"></script>
 </head>
 
 <body>
   <div id="maincontent">
+
     <div id="header">
       <h1 id="title">Contact Manager</h1>
       <div id="userInfo">
-        <span id="welcome">Welcome, <span id="user-name"></span></span>
+        <span id="welcome"><span id="user-name"></span></span>
         <button id="logoutButton" onclick="logout()">Logout</button>
       </div>
     </div>
@@ -23,9 +25,45 @@
       <div id="welcomeMessage">
         <h2>Welcome to your Contact Manager!</h2>
         <p>You have successfully logged in. Contact management features will be available here.</p>
+
+        <div id="contact-table-container">
+          <table id="contact-table">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- New rows go here -->
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
+
   </div>
+
+  <button id="add-contact-fab" onclick="openAddContactModal()">+</button>
+
+  <div id="add-contact-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAddContactModal()">&times;</span>
+      <h2>Add New Contact</h2>
+      <form id="add-contact-form">
+        <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+        <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="tel" id="phone_number" name="phone_number" placeholder="Phone Number">
+        <button type="submit">Add Contact</button>
+      </form>
+    </div>
+  </div>
+
 </body>
 
 </html>
