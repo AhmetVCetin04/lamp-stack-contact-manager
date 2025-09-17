@@ -121,6 +121,7 @@ body {
   border: solid 1px gray;
   border-radius: 6px;
   outline: 0;
+  box-sizing: border-box;
 }
 
 .leavebottomspace {
