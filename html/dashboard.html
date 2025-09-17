@@ -27,42 +27,52 @@
         <p>You have successfully logged in. Contact management features will be available here.</p>
 
         <div id="contact-table-container">
-          <table id="contact-table">
-            <thead>
-              <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- New rows go here -->
-            </tbody>
-          </table>
-        </div>
+          <div id="search-container">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+              viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+            <input type="text" id="contact-search-input" placeholder="Search contacts...">
+          </div>
 
+          <div class="table-wrapper">
+            <table id="contact-table">
+              <thead>
+                <tr>
+                  <th>First</th>
+                  <th>Last</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- New rows go here -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <button id="add-contact-fab" onclick="openAddContactModal()">+</button>
+
+    <div id="add-contact-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeAddContactModal()">&times;</span>
+        <h2>Add New Contact</h2>
+        <form id="add-contact-form">
+          <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+          <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
+          <input type="email" id="email" name="email" placeholder="Email" required>
+          <input type="tel" id="phone_number" name="phone_number" placeholder="Phone Number">
+          <button type="submit">Add Contact</button>
+        </form>
       </div>
     </div>
-
-  </div>
-
-  <button id="add-contact-fab" onclick="openAddContactModal()">+</button>
-
-  <div id="add-contact-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeAddContactModal()">&times;</span>
-      <h2>Add New Contact</h2>
-      <form id="add-contact-form">
-        <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
-        <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
-        <input type="email" id="email" name="email" placeholder="Email" required>
-        <input type="tel" id="phone_number" name="phone_number" placeholder="Phone Number">
-        <button type="submit">Add Contact</button>
-      </form>
-    </div>
-  </div>
 
 </body>
 

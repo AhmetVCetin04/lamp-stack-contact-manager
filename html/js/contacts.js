@@ -177,28 +177,27 @@ function handleDeleteContact(contactId, contactName) {
 
 // Handle search
 function handleSearch(event) {
-  const searchTerm = event.target.value.trim();
+  const searchTerm = event.target.value.trim().toLowerCase();
+  const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 0);
+  const tableRows = document.querySelectorAll('#contact-table tbody tr');
 
-  if (searchTerm.length === 0) {
-    loadContacts();
-    return;
-  }
+  tableRows.forEach(row => {
+    if (row.id === 'loading-row' || row.querySelector('td[colspan="5"]')) {
+      // Skip loading and "no contacts" rows
+      return;
+    }
 
-  if (searchTerm.length >= 2) {
-    searchContacts(searchTerm)
-      .then(data => {
-        if (data.success) {
-          displayContacts(data.contacts);
-          showSearchInfo(data.results_count, data.search_term);
-        } else {
-          showError(data.error || 'Search failed');
-        }
-      })
-      .catch(error => {
-        console.error('Error searching contacts:', error);
-        showError('Search failed');
-      });
-  }
+    const firstName = row.cells[0].textContent.toLowerCase();
+    const lastName = row.cells[1].textContent.toLowerCase();
+    const email = row.cells[2].textContent.toLowerCase();
+    const phoneNumber = row.cells[3].textContent.toLowerCase();
+
+    const rowContent = `${firstName} ${lastName} ${email} ${phoneNumber}`;
+
+    const match = searchWords.every(word => rowContent.includes(word));
+
+    row.style.display = match ? '' : 'none';
+  });
 }
 
 // Utility functions for UI (implement based on your HTML structure)
@@ -338,5 +337,10 @@ document.addEventListener('DOMContentLoaded', () => {
       handleContactForm(event);
       closeAddContactModal();
     });
+  }
+
+  const searchInput = document.getElementById('contact-search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', handleSearch);
   }
 });
