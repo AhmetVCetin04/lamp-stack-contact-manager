@@ -296,10 +296,10 @@ body {
 
 #contact-search-input {
   width: 100%;
-  padding: 10px 10px 10px 40px; /* Add padding for the icon */
+  padding: 10px 10px 10px 40px; 
   border: 1px solid #f2f2f2;
   background-color: #f9f9f9;
-  border-radius: 20px; /* Make it nicely rounded */
+  border-radius: 20px; 
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
   transition: border-color 0.2s;
@@ -316,4 +316,171 @@ body {
   top: 50%;
   transform: translateY(-50%);
   color: #aaa;
+}
+
+/* Table wrapper for responsive scrolling */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media screen and (max-width: 768px) {
+  #header {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  #title {
+    font-size: 1.5rem;
+  }
+
+  #userInfo {
+    justify-content: center;
+  }
+
+  /* Content adjustments */
+  #content {
+    padding: 20px;
+  }
+
+  #welcomeMessage {
+    padding: 20px;
+    width: 95%;
+  }
+
+  #welcomeMessage h2 {
+    font-size: 1.3rem;
+  }
+
+  /* Contact table */
+  #contact-table {
+    display: none;
+  }
+
+  /* Mobile card layout container */
+  .mobile-contacts-container {
+    display: block;
+    margin-top: 20px;
+  }
+
+  .contact-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .contact-card .contact-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .contact-card .contact-info {
+    margin-bottom: 6px;
+    color: #666;
+  }
+
+  .contact-card .contact-info strong {
+    color: #333;
+    font-weight: 500;
+  }
+
+  .contact-card .contact-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+  }
+
+  /* FAB adjustments */
+  #add-contact-fab {
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .modal-content {
+    width: 95%;
+    margin: 10px;
+    padding: 15px;
+  }
+
+  /* Search container */
+  #search-container {
+    max-width: 100%;
+    margin: 0 0 15px 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #header {
+    padding: 10px 15px;
+  }
+
+  #title {
+    font-size: 1.3rem;
+  }
+
+  #content {
+    padding: 15px;
+  }
+
+  #welcomeMessage {
+    padding: 15px;
+    width: 98%;
+  }
+
+  #welcomeMessage h2 {
+    font-size: 1.2rem;
+  }
+
+  #welcomeMessage p {
+    font-size: 0.9rem;
+  }
+
+  .contact-card {
+    padding: 12px;
+  }
+
+  .contact-card .contact-name {
+    font-size: 1rem;
+  }
+
+  .contact-card .contact-info {
+    font-size: 0.9rem;
+  }
+
+  .contact-card .contact-actions {
+    flex-direction: column;
+  }
+
+  .edit-btn, .delete-btn {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #add-contact-fab {
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+/* Desktop styles */
+@media screen and (min-width: 769px) {
+  #contact-table {
+    display: table;
+  }
+
+  .mobile-contacts-container {
+    display: none;
+  }
 }

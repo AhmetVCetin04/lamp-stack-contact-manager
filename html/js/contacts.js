@@ -2,29 +2,27 @@
 
 // Get all contacts for the authenticated user
 async function getContacts(userId = null) {
-  let url = window.apiEndpoint('GetContacts.php');
+  let url = window.apiEndpoint("GetContacts.php");
   if (userId) {
-    url += '?user_id=' + userId;
+    url += "?user_id=" + userId;
   }
 
   return fetch(url, {
-    method: 'GET',
-    credentials: 'include'
-  })
-    .then(response => response.json());
+    method: "GET",
+    credentials: "include"
+  }).then(response => response.json());
 }
 
 // Create a new contact
 async function createContact(contactData) {
-  return fetch(window.apiEndpoint('CreateContact.php'), {
-    method: 'POST',
-    credentials: 'include',
+  return fetch(window.apiEndpoint("CreateContact.php"), {
+    method: "POST",
+    credentials: "include",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(contactData)
-  })
-    .then(response => response.json());
+  }).then(response => response.json());
 }
 
 // Update an existing contact
@@ -38,53 +36,54 @@ async function updateContact(contactId, contactData, userId = null) {
     updateData.user_id = userId;
   }
 
-  return fetch(window.apiEndpoint('UpdateContact.php'), {
-    method: 'PUT',
-    credentials: 'include',
+  return fetch(window.apiEndpoint("UpdateContact.php"), {
+    method: "PUT",
+    credentials: "include",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(updateData)
-  })
-    .then(response => response.json());
+  }).then(response => response.json());
 }
 
 // Delete a contact
 async function deleteContact(contactId, userId = null) {
-  let url = window.apiEndpoint('DeleteContact.php') + '?contact_id=' + contactId;
+  let url =
+    window.apiEndpoint("DeleteContact.php") + "?contact_id=" + contactId;
   if (userId) {
-    url += '&user_id=' + userId;
+    url += "&user_id=" + userId;
   }
 
   return fetch(url, {
-    method: 'DELETE',
-    credentials: 'include'
-  })
-    .then(response => response.json());
+    method: "DELETE",
+    credentials: "include"
+  }).then(response => response.json());
 }
 
 // Search contacts
 async function searchContacts(searchTerm, userId = null) {
-  let url = window.apiEndpoint('SearchContacts.php') + '?search_term=' + encodeURIComponent(searchTerm);
+  let url =
+    window.apiEndpoint("SearchContacts.php") +
+    "?search_term=" +
+    encodeURIComponent(searchTerm);
   if (userId) {
-    url += '&user_id=' + userId;
+    url += "&user_id=" + userId;
   }
 
   return fetch(url, {
-    method: 'GET',
-    credentials: 'include'
-  })
-    .then(response => response.json());
+    method: "GET",
+    credentials: "include"
+  }).then(response => response.json());
 }
 
 // Example usage functions for UI integration
 
 // Load and display contacts
 async function loadContacts() {
-  const table = document.getElementById('contact-table');
-  table.classList.add('no-data'); // Hide header
+  const table = document.getElementById("contact-table");
+  table.classList.add("no-data"); // Hide header
 
-  const tableBody = document.querySelector('#contact-table tbody');
+  const tableBody = document.querySelector("#contact-table tbody");
   tableBody.innerHTML = `
     <tr>
       <td colspan="5" style="text-align: center;">No contacts found.</td>
@@ -98,22 +97,22 @@ function handleContactForm(event) {
 
   const formData = new FormData(event.target);
   const contactData = {
-    first_name: formData.get('first_name'),
-    last_name: formData.get('last_name'),
-    email: formData.get('email'),
-    phone_number: formData.get('phone_number')
+    first_name: formData.get("first_name"),
+    last_name: formData.get("last_name"),
+    email: formData.get("email"),
+    phone_number: formData.get("phone_number")
   };
 
-  const contactId = formData.get('contact_id');
+  const contactId = formData.get("contact_id");
 
   if (contactId) {
     // Update existing contact
     updateContact(contactId, contactData)
       .then(data => {
         if (data.success) {
-          showSuccess('Contact updated successfully');
+          showSuccess("Contact updated successfully");
           // Refresh the current search to show the updated contact
-          const searchInput = document.getElementById('contact-search-input');
+          const searchInput = document.getElementById("contact-search-input");
           if (searchInput.value) {
             handleSearch({ target: { value: searchInput.value } });
           } else {
@@ -121,21 +120,21 @@ function handleContactForm(event) {
           }
           event.target.reset();
         } else {
-          showError(data.error || 'Failed to update contact');
+          showError(data.error || "Failed to update contact");
         }
       })
       .catch(error => {
-        console.error('Error updating contact:', error);
-        showError('Failed to update contact');
+        console.error("Error updating contact:", error);
+        showError("Failed to update contact");
       });
   } else {
     // Create new contact
     createContact(contactData)
       .then(data => {
         if (data.success) {
-          showSuccess('Contact created successfully');
+          showSuccess("Contact created successfully");
           // Refresh the current search to show the new contact
-          const searchInput = document.getElementById('contact-search-input');
+          const searchInput = document.getElementById("contact-search-input");
           if (searchInput.value) {
             handleSearch({ target: { value: searchInput.value } });
           } else {
@@ -143,12 +142,12 @@ function handleContactForm(event) {
           }
           event.target.reset();
         } else {
-          showError(data.error || 'Failed to create contact');
+          showError(data.error || "Failed to create contact");
         }
       })
       .catch(error => {
-        console.error('Error creating contact:', error);
-        showError('Failed to create contact');
+        console.error("Error creating contact:", error);
+        showError("Failed to create contact");
       });
   }
 }
@@ -159,21 +158,21 @@ function handleDeleteContact(contactId, contactName) {
     deleteContact(contactId)
       .then(data => {
         if (data.success) {
-          showSuccess('Contact deleted successfully');
+          showSuccess("Contact deleted successfully");
           // Refresh the current search
-          const searchInput = document.getElementById('contact-search-input');
+          const searchInput = document.getElementById("contact-search-input");
           if (searchInput.value) {
             handleSearch({ target: { value: searchInput.value } });
           } else {
             loadContacts();
           }
         } else {
-          showError(data.error || 'Failed to delete contact');
+          showError(data.error || "Failed to delete contact");
         }
       })
       .catch(error => {
-        console.error('Error deleting contact:', error);
-        showError('Failed to delete contact');
+        console.error("Error deleting contact:", error);
+        showError("Failed to delete contact");
       });
   }
 }
@@ -189,12 +188,12 @@ function handleSearch(event) {
           displayContacts(data.contacts);
           showSearchInfo(data.results_count, data.search_term);
         } else {
-          showError(data.error || 'Search failed');
+          showError(data.error || "Search failed");
         }
       })
       .catch(error => {
-        console.error('Error during search:', error);
-        showError('Search failed');
+        console.error("Error during search:", error);
+        showError("Search failed");
       });
   } else {
     // If search term is empty, load all contacts
@@ -204,38 +203,45 @@ function handleSearch(event) {
 
 // Utility functions for UI (implement based on your HTML structure)
 function displayContacts(contacts) {
-  const table = document.getElementById('contact-table');
-  const tableBody = document.querySelector('#contact-table tbody');
-  tableBody.innerHTML = ''; // Clear existing rows
+  displayContactsInTable(contacts);
+  displayContactsAsMobileCards(contacts);
+}
+
+function displayContactsInTable(contacts) {
+  const table = document.getElementById("contact-table");
+  const tableBody = document.querySelector("#contact-table tbody");
+  tableBody.innerHTML = ""; // Clear existing rows
 
   if (contacts.length === 0) {
-    table.classList.add('no-data'); // Hide header
-    const noContactsRow = document.createElement('tr');
-    const noContactsCell = document.createElement('td');
+    table.classList.add("no-data"); // Hide header
+    const noContactsRow = document.createElement("tr");
+    const noContactsCell = document.createElement("td");
     noContactsCell.colSpan = 5;
-    noContactsCell.textContent = 'No contacts found.';
-    noContactsCell.style.textAlign = 'center';
+    noContactsCell.textContent = "No contacts found.";
+    noContactsCell.style.textAlign = "center";
     noContactsRow.appendChild(noContactsCell);
     tableBody.appendChild(noContactsRow);
     return;
   }
 
-  table.classList.remove('no-data'); // Show header
+  table.classList.remove("no-data"); // Show header
 
   contacts.forEach(contact => {
-    const row = document.createElement('tr');
+    const row = document.createElement("tr");
     row.innerHTML = `
       <td>${contact.first_name}</td>
       <td>${contact.last_name}</td>
       <td>${contact.email}</td>
       <td>${contact.phone_number}</td>
       <td>
-        <button class="edit-btn" onclick='openEditContactModal(${JSON.stringify(contact)})'>
+        <button class="edit-btn" onclick='openEditContactModal(${JSON.stringify(
+          contact
+        )})' aria-label="Edit ${contact.first_name} ${contact.last_name}">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
             <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V12h2.293l6.5-6.5-.207-.207z"/>
           </svg>
         </button>
-        <button class="delete-btn" onclick='handleDeleteContact(${contact.contact_id}, "${contact.first_name} ${contact.last_name}")'>
+        <button class="delete-btn" onclick='handleDeleteContact(${contact.contact_id}, "${contact.first_name} ${contact.last_name}")' aria-label="Delete ${contact.first_name} ${contact.last_name}">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
             <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -247,21 +253,76 @@ function displayContacts(contacts) {
   });
 }
 
-function showError(message) {
-  console.error('Error:', message);
-  const table = document.getElementById('contact-table');
-  table.classList.add('no-data'); // Hide header
+function displayContactsAsMobileCards(contacts) {
+  const mobileContainer = document.querySelector(".mobile-contacts-container");
+  mobileContainer.innerHTML = ""; // Clear existing cards
 
-  const tableBody = document.querySelector('#contact-table tbody');
+  if (contacts.length === 0) {
+    const noContactsCard = document.createElement("div");
+    noContactsCard.className = "contact-card";
+    noContactsCard.style.textAlign = "center";
+    noContactsCard.style.color = "#666";
+    noContactsCard.textContent = "No contacts found.";
+    mobileContainer.appendChild(noContactsCard);
+    return;
+  }
+
+  contacts.forEach(contact => {
+    const card = document.createElement("div");
+    card.className = "contact-card";
+
+    card.innerHTML = `
+      <div class="contact-name">${contact.first_name} ${contact.last_name}</div>
+      <div class="contact-info"><strong>Email:</strong> ${contact.email}</div>
+      <div class="contact-info"><strong>Phone:</strong> ${contact.phone_number ||
+        "Not provided"}</div>
+      <div class="contact-actions">
+        <button class="edit-btn" onclick='openEditContactModal(${JSON.stringify(
+          contact
+        )})' aria-label="Edit ${contact.first_name} ${contact.last_name}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V12h2.293l6.5-6.5-.207-.207z"/>
+          </svg>
+          Edit
+        </button>
+        <button class="delete-btn" onclick='handleDeleteContact(${contact.contact_id}, "${contact.first_name} ${contact.last_name}")' aria-label="Delete ${contact.first_name} ${contact.last_name}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg>
+          Delete
+        </button>
+      </div>
+    `;
+
+    mobileContainer.appendChild(card);
+  });
+}
+
+function showError(message) {
+  console.error("Error:", message);
+
+  // Show error in table
+  const table = document.getElementById("contact-table");
+  table.classList.add("no-data"); // Hide header
+  const tableBody = document.querySelector("#contact-table tbody");
   tableBody.innerHTML = `
     <tr>
       <td colspan="5" style="text-align: center; color: red;">${message}</td>
     </tr>
   `;
+
+  // Show error in mobile container
+  const mobileContainer = document.querySelector(".mobile-contacts-container");
+  mobileContainer.innerHTML = `
+    <div class="contact-card" style="text-align: center; color: red; border-color: #dc3545;">
+      ${message}
+    </div>
+  `;
 }
 
 function showSuccess(message) {
-  console.log('Success:', message);
+  console.log("Success:", message);
   // Implement success display
 }
 
@@ -282,19 +343,21 @@ window.handleDeleteContact = handleDeleteContact;
 window.handleSearch = handleSearch;
 
 function openAddContactModal() {
-  const modal = document.getElementById('add-contact-modal');
-  modal.style.display = 'flex';
+  const modal = document.getElementById("add-contact-modal");
+  modal.style.display = "flex";
 }
 
 function closeAddContactModal() {
-  const modal = document.getElementById('add-contact-modal');
-  modal.style.display = 'none';
+  const modal = document.getElementById("add-contact-modal");
+  modal.style.display = "none";
 
   // Reset modal to "Add Contact" mode
-  document.querySelector('#add-contact-modal h2').textContent = 'Add New Contact';
-  document.querySelector('#add-contact-form button').textContent = 'Add Contact';
-  document.getElementById('add-contact-form').reset();
-  const contactIdInput = document.getElementById('contact_id');
+  document.querySelector("#add-contact-modal h2").textContent =
+    "Add New Contact";
+  document.querySelector("#add-contact-form button").textContent =
+    "Add Contact";
+  document.getElementById("add-contact-form").reset();
+  const contactIdInput = document.getElementById("contact_id");
   if (contactIdInput) {
     contactIdInput.remove();
   }
@@ -302,27 +365,27 @@ function closeAddContactModal() {
 
 function openEditContactModal(contact) {
   // Change modal title
-  const modalTitle = document.querySelector('#add-contact-modal h2');
-  modalTitle.textContent = 'Edit Contact';
+  const modalTitle = document.querySelector("#add-contact-modal h2");
+  modalTitle.textContent = "Edit Contact";
 
   // Change form button text
-  const formButton = document.querySelector('#add-contact-form button');
-  formButton.textContent = 'Update Contact';
+  const formButton = document.querySelector("#add-contact-form button");
+  formButton.textContent = "Update Contact";
 
   // Populate the form
-  document.getElementById('first_name').value = contact.first_name;
-  document.getElementById('last_name').value = contact.last_name;
-  document.getElementById('email').value = contact.email;
-  document.getElementById('phone_number').value = contact.phone_number;
+  document.getElementById("first_name").value = contact.first_name;
+  document.getElementById("last_name").value = contact.last_name;
+  document.getElementById("email").value = contact.email;
+  document.getElementById("phone_number").value = contact.phone_number;
 
   // Add contact_id to a hidden input field in the form
-  let contactIdInput = document.getElementById('contact_id');
+  let contactIdInput = document.getElementById("contact_id");
   if (!contactIdInput) {
-    contactIdInput = document.createElement('input');
-    contactIdInput.type = 'hidden';
-    contactIdInput.id = 'contact_id';
-    contactIdInput.name = 'contact_id';
-    document.getElementById('add-contact-form').appendChild(contactIdInput);
+    contactIdInput = document.createElement("input");
+    contactIdInput.type = "hidden";
+    contactIdInput.id = "contact_id";
+    contactIdInput.name = "contact_id";
+    document.getElementById("add-contact-form").appendChild(contactIdInput);
   }
   contactIdInput.value = contact.contact_id;
 
@@ -330,19 +393,19 @@ function openEditContactModal(contact) {
   openAddContactModal();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   displayContacts([]); // Initially display an empty table
 
-  const addContactForm = document.getElementById('add-contact-form');
+  const addContactForm = document.getElementById("add-contact-form");
   if (addContactForm) {
-    addContactForm.addEventListener('submit', (event) => {
+    addContactForm.addEventListener("submit", event => {
       handleContactForm(event);
       closeAddContactModal();
     });
   }
 
-  const searchInput = document.getElementById('contact-search-input');
+  const searchInput = document.getElementById("contact-search-input");
   if (searchInput) {
-    searchInput.addEventListener('input', handleSearch);
+    searchInput.addEventListener("input", handleSearch);
   }
 });
