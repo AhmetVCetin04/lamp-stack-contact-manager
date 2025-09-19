@@ -10,7 +10,9 @@ html {
 }
 
 body {
-  background-color: #f5f5f5;
+  background-image: url("/images/dashboardbg.png");
+  background-size: cover;
+  background-position: center;
   color: #333;
   margin: 0;
   padding: 0;
