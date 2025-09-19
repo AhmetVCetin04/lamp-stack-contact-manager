@@ -48,7 +48,7 @@ body {
 
 #welcome {
   font-size: 1rem;
-  color: #666;
+  color: #4a4a4a;
 }
 
 #user-name {
@@ -60,12 +60,14 @@ body {
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 12px 20px;
   border-radius: 6px;
   cursor: pointer;
   font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   transition: background-color 0.2s;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 #logoutButton:hover {
@@ -99,7 +101,7 @@ body {
 
 #welcomeMessage p {
   font-size: 1rem;
-  color: #666;
+  color: #4a4a4a;
   line-height: 1.5;
 }
 
@@ -187,6 +189,11 @@ body {
   float: right;
   font-size: 28px;
   font-weight: bold;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-block;
+  text-align: center;
+  line-height: 44px;
 }
 
 .close:hover,
@@ -247,9 +254,11 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 12px;
   border-radius: 5px;
   transition: background-color 0.2s;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .edit-btn:hover {
@@ -260,9 +269,11 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 12px;
   border-radius: 5px;
   transition: background-color 0.2s;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .delete-btn:hover {
