@@ -58,6 +58,10 @@ body {
   font-size: 1.75rem;
   font-weight: 600;
   color: black;
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  display: inline-block;
 }
 
 #requiredfieldindicator {
@@ -66,17 +70,19 @@ body {
 
 #signinbutton {
   /* How it looks */
-  background-color: gray;
+  background-color: #4a4a4a;
   font-size: 1.1rem;
   color: white;
   border: 0;
   border-radius: 20px;
+  min-height: 44px;
+  min-width: 44px;
 
   /* Padding */
   padding-left: 30px;
   padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 
   /* Leave a bit of top space between other form items and this */
   margin-top: 40px;
@@ -90,7 +96,7 @@ body {
 
 /* WARNING: Remains unused for now! */
 #hidepassbutton {
-  color: gray;
+  color: #4a4a4a;
   background: none;
   border: none;
 
@@ -111,14 +117,14 @@ body {
 /* Classes; generic attributes */
 
 .formlabel {
-  color: gray;
+  color: #4a4a4a;
   width: 100%;
 }
 
 .forminput {
   padding: 11px;
   width: 100%;
-  border: solid 1px gray;
+  border: solid 1px #4a4a4a;
   border-radius: 6px;
   outline: 0;
   box-sizing: border-box;
@@ -132,6 +138,9 @@ body {
   margin-bottom: 12px;
   color: black;
   font-weight: bold;
+  min-height: 44px;
+  display: inline-block;
+  line-height: 44px;
 }
 
 .formcheckbox {
